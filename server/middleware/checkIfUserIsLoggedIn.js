@@ -1,25 +1,26 @@
 const jwt = require("jsonwebtoken")
-const userModel = require("../models/user")
-const asyncHandler = require("express-async-handler")
+const userModel = require("../models/userRegModel")
+const expressAsyncHandler = require("express-async-handler")
 
 
-const checkIfUserLoggedIn = asyncHandler(async (req, res, next) => {
-    const { loginToken } = req.cookies
+const checkIfUserLoggedIn = expressAsyncHandler(async (req, res, next) => {
+    const loginToken = req.cookies["user-login"]
   
     if (loginToken) {
 
-        jwt.verify(loginToken, process.env.JWT_SECRET, async (err, decoded) => {
+        jwt.verify(loginToken, process.env.SECRET_KEY, async (err, decoded) => {
             if (err) {
                 res.json("user not logged in")
                 return
                 
             }
-            const { id } = decoded
-            if (id) {
-                const user = await userModel.findOne({ _id: id })
+            const { _id } = decoded
+            console.log("this is the id", _id)
+            if (_id) {
+                const user = await userModel.findOne({ _id })
                 if (!user) {
-                    res.json("user does not exist") 
-                    return
+                    
+                    throw new Error("user does not exist")
                 }
              req.user = user
              next() 

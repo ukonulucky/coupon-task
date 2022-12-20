@@ -13,8 +13,7 @@ const userSchema = new mongoose.Schema({
     },
        email: {
         type: String,
-        required: [true, "email is required"],
-        unique: true
+        required: [true, "email is required"]
     },
     passWord: {
         type: String,
@@ -24,6 +23,10 @@ const userSchema = new mongoose.Schema({
         type: String,
        default: "user"
     },
+    userStatus:{
+        type: String,
+        default:"subscribed"
+    }
 },
 {
     timestamp: true
@@ -40,10 +43,17 @@ userSchema.pre("save", async function (next) {
 
 })
 
+// creating a virtual fied for all the coupon made  by vendors and admins
+userSchema.virtual("CouponCreated", {
+    ref:"coupon",
+    foreignField:"createdBy",
+    localField:"_id",
+    justOne:false  
+})
 
 userSchema.methods.isPasswordMatch = async function (userPassword) {
     return await bcrypt.compare(userPassword, this.passWord)
 }
 const userModel = mongoose.model("User", userSchema)
 
-module.exports = userModel   
+module.exports = userModel

@@ -1,15 +1,23 @@
 require("dotenv").config()
+const cors = require("cors")
 const express = require("express")
 const dbConnect = require("./config/dbConnect")
 const {errorHandler, noteFoundError} = require("./middleware/error")
 // const userRouter = require("./routes/user/userRoutes")
 const cookieParser = require("cookie-parser")
 const { userRouter } = require("./routes/regRoutes")
+const { couponRouter } = require("./routes/couponRoutes")
 // const { postRouth } = require("./routes/post/postRouth")
 
 
 
 const app = express()
+
+const corsOptions = {
+  origin:"http://localhost:3000",
+  
+}
+app.use(cors())
 app.use(cookieParser())
 app.use(express.json())
 // user routes
@@ -17,6 +25,7 @@ app.use(express.json())
 
  //regster routes
 app.use("/api/user",userRouter)
+app.use("/api/coupon", couponRouter)
 
 // Middleware Creation 
 app.use(noteFoundError)

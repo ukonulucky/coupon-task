@@ -31,16 +31,44 @@ const createCoupon = expressAsyncHandler(async (req, res) => {
 })
 
 
-const getAllCoupons = expressAsyncHandler(async(req, res) => {
+const createCouponForVendor = expressAsyncHandler(async (req, res) => {
+    const couponCode = crypto.randomUUID()
+ const {category, state,percent, _id} = req.body
+    try {
+        if(req.user.role === "user"){
+            throw new Error("coupon can only be created by a vendor or admin")
+        }
+        const createCoupon = await couponModel.create({
+            ...req.body, createdBy: _id, couponId: couponCode, isCouponApproved: req.user.role === "admin" ? true : false
+        })
+        if(!createCoupon){
+            throw new Error("Coupon Creation failed Please try again")
+          
+        }
+        res.status(201).json(createCoupon)
+     
+    } catch (error) {
+        throw new Error(error.message)
+    }
+})
+
+
+const getAllCoupons = expressAsyncHandler(async(req, res) => { 
+    if(req.user.role !== 'admin'){
+        res.status(404).json({
+            message:"Please Login as an Admin"
+        })
+        return
+    }
   try {
-    const allCoupons = await couponModel.find({})
+    const allCoupons = await couponModel.find({}).populate("createdBy")
     if(!allCoupons){
         response.status(404).json({
             message: 'Coupon not found'
         })
     }
     res.status(200).json(allCoupons)
-    
+     
   } catch (error) {
     throw new Error(error.message)
   }
@@ -79,5 +107,5 @@ res.status(200).json({
 
 
 module.exports = {
-    createCoupon, getAllCoupons, activateVendorCoupon
+    createCoupon, getAllCoupons, activateVendorCoupon, createCouponForVendor
 }

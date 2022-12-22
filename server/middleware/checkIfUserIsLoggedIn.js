@@ -11,8 +11,7 @@ const checkIfUserLoggedIn = expressAsyncHandler(async (req, res, next) => {
         jwt.verify(loginToken, process.env.SECRET_KEY, async (err, decoded) => {
             if (err) {
                 res.json("user not logged in")
-                return
-                
+                return  
             }
             const { _id } = decoded
             console.log("this is the id", _id)

@@ -7,6 +7,7 @@ const expressAsyncHandler = require("express-async-handler");
 
 const login = expressAsyncHandler(async (req, res) => {
   try {
+    console.log(req.body);
     const {email, passWord, role} = req.body
     if(role === "admin") {
        const user = await userModel.findOne({email,role:"admin"})
@@ -19,7 +20,8 @@ const login = expressAsyncHandler(async (req, res) => {
        })
        const {_id} = user
      const jwt_token =  jwt.sign({_id}, process.env.SECRET_KEY,{
-        expiresIn:24 * 60 * 60 
+        expiresIn:24 * 60 * 60,
+       
        })
        res.cookie("user-login",jwt_token, {  maxAge: 24 * 60 * 60 * 1000})
        res.status(200).json(user)
@@ -36,7 +38,8 @@ const login = expressAsyncHandler(async (req, res) => {
         })
         const {_id} = user
       const jwt_token =  jwt.sign({_id}, process.env.SECRET_KEY,{
-         expiresIn:24 * 60 * 60
+         expiresIn:24 * 60 * 60,
+        
         })
         res.cookie("user-login",jwt_token, {  maxAge: 24 * 60 * 60 * 1000})
         res.status(200).json(user)
@@ -53,7 +56,8 @@ const login = expressAsyncHandler(async (req, res) => {
         })
         const {_id} = user
       const jwt_token =  jwt.sign({_id}, process.env.SECRET_KEY,{
-         expiresIn:24 * 60 * 60
+         expiresIn:24 * 60 * 60,
+        
         })
         res.cookie("user-login",jwt_token, {  maxAge: 24 * 60 * 60 * 1000})
         res.status(200).json(user)
@@ -84,7 +88,8 @@ const getAllUsers =expressAsyncHandler(async (req, res) => {
 } )
 const logout = (req, res) => {
     res.cookie("user-login", "", {
-        maxAge:1
+        maxAge:1,
+       
     })
  res.status(200).json({
     message: "You have been logged out"

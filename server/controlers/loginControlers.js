@@ -21,12 +21,13 @@ const login = expressAsyncHandler(async (req, res) => {
        const {_id} = user
      const jwt_token =  jwt.sign({_id}, process.env.SECRET_KEY,{
         expiresIn:24 * 60 * 60,
-       
        })
        res.cookie("user-login",jwt_token, { 
          maxAge: 24 * 60 * 60 * 1000,
-         
-        
+         httpOnly:true,
+         secure:true,
+         sameSite:"none",
+         path: "/"
         })
        res.status(200).json(user)
 

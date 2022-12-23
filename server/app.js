@@ -14,14 +14,28 @@ const { couponRouter } = require("./routes/couponRoutes")
 const app = express()
 
 const corsOptions = {
- origin:'https://coupon-task-8c9u.vercel.app',
-// origin:'http://localhost:3000',  
-    credentials: true,
-    optionSuccessStatus:200,
-    "Access-Control-Allow-Credentials":true,
-    SameSite:"none",
-    Secure:true,
-    path:"/"
+//  origin:'https://coupon-task-8c9u.vercel.app',
+// // origin:'http://localhost:3000',  
+//     credentials: true,
+//     optionSuccessStatus:200,
+//     "Access-Control-Allow-Credentials":true,
+//     SameSite:"none",
+//     Secure:true,
+//     path:"/"
+
+  origin: "https://coupon-task-8c9u.vercel.app",
+  credentials: true,
+  exposedHeaders: ['Set-Cookie'],
+  allowedHeaders: [
+      'Authorization',
+      'Content-Type',
+      'membership-id',
+      'account-id',
+      'X-Requested-With',
+      'Accept',
+      'Origin',
+  ]
+
   
 }
 app.use(cors(corsOptions))

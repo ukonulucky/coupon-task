@@ -54,12 +54,6 @@ const createCouponForVendor = expressAsyncHandler(async (req, res) => {
 
 
 const getAllCoupons = expressAsyncHandler(async(req, res) => { 
-    if(req.user.role !== 'admin'){
-        res.status(404).json({
-            message:"Please Login as an Admin"
-        })
-        return
-    }
   try {
     const allCoupons = await couponModel.find({}).populate("createdBy")
     if(!allCoupons){

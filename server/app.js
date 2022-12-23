@@ -17,7 +17,11 @@ const corsOptions = {
  origin:'https://coupon-task-8c9u.vercel.app',
 // origin:'http://localhost:3000',  
     credentials: true,
-    optionSuccessStatus:200
+    optionSuccessStatus:200,
+    "Access-Control-Allow-Credentials":true,
+    SameSite:"none",
+    Secure:true,
+    path:"/"
   
 }
 app.use(cors(corsOptions))

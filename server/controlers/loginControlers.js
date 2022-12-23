@@ -23,7 +23,11 @@ const login = expressAsyncHandler(async (req, res) => {
         expiresIn:24 * 60 * 60,
        
        })
-       res.cookie("user-login",jwt_token, {  maxAge: 24 * 60 * 60 * 1000})
+       res.cookie("user-login",jwt_token, { 
+         maxAge: 24 * 60 * 60 * 1000,
+         
+        
+        })
        res.status(200).json(user)
 
     }

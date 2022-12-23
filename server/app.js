@@ -15,7 +15,6 @@ const app = express()
 
 const corsOptions = {
 origin:'https://coupon-task-8c9u.vercel.app', 
-  origin:"http://localhost:3001",
     credentials: true,
     optionSuccessStatus:200
   

@@ -60,6 +60,7 @@ const getAllCoupons = expressAsyncHandler(async(req, res) => {
         response.status(404).json({
             message: 'Coupon not found'
         })
+        return
     }
     res.status(200).json(allCoupons)
      

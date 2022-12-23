@@ -14,7 +14,8 @@ const { couponRouter } = require("./routes/couponRoutes")
 const app = express()
 
 const corsOptions = {
-origin:'https://coupon-task-8c9u.vercel.app', 
+ origin:'https://coupon-task-8c9u.vercel.app',
+// origin:'http://localhost:3000',  
     credentials: true,
     optionSuccessStatus:200
   
